@@ -1,4 +1,7 @@
 # redis-plus-plus
+**NOTE**: This repo was forked from the original author Sewenew. Credits to him.
+
+> This forked version includes default constructors for Connection, Redis, and Subscriber classes. This is to facilitate the usecase of supporting runtime configuration (not backed-in-compiler config), and member attribute / property storage. The point of these is to enable dependency injection service based software model for the project [Cardinal C++ Distributed Scalable MMORPG Server](https://github.com/sarahjabado/cardinal-cpp) which leverages containerisation and kubernetes.
 
 [![Build Status](https://travis-ci.org/sewenew/redis-plus-plus.svg?branch=master)](https://travis-ci.org/sewenew/redis-plus-plus)
 
@@ -36,6 +39,7 @@
 This is a C++ client library for Redis. It's based on [hiredis](https://github.com/redis/hiredis), and is compatible with C++ 17, C++ 14, and C++ 11.
 
 **NOTE**: I'm not a native speaker. So if the documentation is unclear, please feel free to open an issue or pull request. I'll response ASAP.
+-sewnew original author.
 
 ### Features
 - Most commands for Redis.
@@ -393,6 +397,51 @@ cmake -DCMAKE_PREFIX_PATH=/installation/path/to/the/two/libs ..
 
 ## Getting Started
 
+### Member Attribute Usage (OOP);
+Defining as a member attribute;
+```C++
+#include <sw/redis++/redis++.h>
+
+class MyClass {
+    public:
+        sw::redis::Redis Connect(std::string Hostname, std::string Port = "6379", std::string Protocol = "tcp")
+        {
+            auto redis = sw::redis::Redis(Protocol + "://" + Hostname + ":" + Port);
+            return this->SetRedisInstance(redis);
+        }
+
+        sw::redis::Redis SetRedisInstance(sw::redis::Redis redis)
+        {
+            this->redisInstance = redis;
+
+            return this->redisInstance;
+        }
+
+        sw::redis::Redis GetRedisInstance()
+        {
+            return this->redisInstance;
+        }
+
+    private:
+        sw::redis::Redis redisInstance;
+};
+```
+
+The above can then be instantiated in the following way;
+```C++
+#include "MyClass.h"
+
+int main() {
+    MyClass c = MyClass();
+
+    auto redis = c.Connect("localhost");
+    redis.set("key", "val");
+}
+```
+
+**NOTE**: Introduce an interface then use a dependency injection framework like [boost::di ](https://github.com/boost-ext/di/blob/cpp14/include/boost/di.hpp) to manage redis as a service.
+
+### Local variable usage (procedural);
 ```C++
 #include <sw/redis++/redis++.h>
 
