@@ -65,6 +65,7 @@ public:
     Subscriber(const Subscriber &) = delete;
     Subscriber& operator=(const Subscriber &) = delete;
 
+    Subscriber() = default;
     Subscriber(Subscriber &&) = default;
     Subscriber& operator=(Subscriber &&) = default;
 

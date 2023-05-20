@@ -113,6 +113,7 @@ class CmdArgs;
 
 class Connection {
 public:
+    Connection() = default;
     explicit Connection(const ConnectionOptions &opts);
 
     Connection(const Connection &) = delete;

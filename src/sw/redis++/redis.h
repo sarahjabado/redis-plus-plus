@@ -44,6 +44,7 @@ using Pipeline = QueuedRedis<PipelineImpl>;
 
 class Redis {
 public:
+    Redis() = default;
     /// @brief Construct `Redis` instance with connection options and connection pool options.
     /// @param connection_opts Connection options.
     /// @param pool_opts Connection pool options.

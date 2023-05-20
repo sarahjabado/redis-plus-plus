@@ -57,6 +57,8 @@ ConnectionOptions ConnectionOptions::_parse_uri(const std::string &uri) const {
         _set_tcp_opts(spath, opts);
     } else if (scheme == "unix") {
         _set_unix_opts(spath, opts);
+    } else if (scheme == "") {
+        // No scheme, use default options.
     } else {
         throw Error("invalid URI: invalid scheme");
     }
